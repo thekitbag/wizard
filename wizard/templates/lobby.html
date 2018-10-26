@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+<meta http-equiv="Cache-Control" content="no-cache"/> 
 {% block content %}
 {%if name %}
 <h2 class ="welcome-message">Hi {{name}}, choose a game from the list below</h2>
@@ -9,4 +9,8 @@
 <a href="{{ url_for('login') }}" class="btn-secondary">Login</a>
 {% endif %}
 
+<div id="games-list">
+</div>
+
+<script src="../static/js/lobby.js?v=6"></script>
 {% endblock %}
