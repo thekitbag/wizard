@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+{%if name %}
+<h2 class ="welcome-message">Hi {{name}}, choose a game from the list below</h2>
+<a href="{{ url_for('logout') }}" class="btn-secondary">Logout</a>  
+{% else %}
+<h2 class ="welcome-message"> Hi Stranger, welcome to the lobby. Below are the games on offer. Click log-in to join one</h2>
+<a href="{{ url_for('login') }}" class="btn-secondary">Login</a>
+{% endif %}
+
+{% endblock %}

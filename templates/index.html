@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main class="hero-section">
+    <div class="container">      
+      <div class="section-content">        
+        <a href="{{ url_for('signup') }}" class="btn-primary">Sign up</a>
+        <a href="{{ url_for('login') }}" class="btn-secondary">Log in</a>
+        <a href="{{ url_for('about') }}" class="btn-secondary">Learn more</a>
+        <a href="{{ url_for('lobby') }}" class="btn-secondary">View Games</a>   
+      </div>
+
+      <div class="section-image">
+        <img src="static/img/game_image.JPG" height="100" width="100">
+      </div>
+      
+      <div class="clearfix"></div>
+
+    </div>
+  </main>
+{% endblock %}

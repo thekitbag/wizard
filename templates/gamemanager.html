@@ -1,0 +1,23 @@
+<main class="container signup-section">
+    <div class="section-content">
+      <h2>Game Manager</h2>
+
+      <form method="POST" action="/creategame">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          {{ form.entrants.label }}
+          {{ form.entrants }}
+        </div>
+
+        <div class="form-group">
+          {{ form.rounds.label }}
+          {{ form.rounds }}
+        </div>
+
+        {{ form.submit(class="btn-primary") }}
+
+      </form>
+
+    </div>
+  </main>
