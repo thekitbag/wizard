@@ -10,7 +10,9 @@ class Lobby():
 				gamedata['game_id'] = game.game_id
 				gamedata['status'] = game.status
 				gamedata['entrants']= game.entrants
-				gamedata['player_list'] = game.player_list
+				gamedata['player_list'] = []
+				for player in game.player_list:
+					gamedata['player_list'].append(player.name)
 				games.append(gamedata)
 		return games
 
@@ -29,12 +31,33 @@ class Game():
 	def __repr__(self):
 		return "Game" + str(self.game_id)
 
-class Player():
-	name = ""
+	def getGameById(game_id):
+		print(type(game_id))
+		print(type(Lobby.games[0].game_id))
+		game_list = [game for game in Lobby.games if game.game_id == game_id]
+		print(game_list)
+		game_obj = game_list[0]
+		return game_obj
 
-def createNewGame(rounds, entrants):
-	game = Game(rounds, entrants)
-	Lobby.games.append(game)
+
+class Player():
+
+	def __init__(self, name):
+		self.name = name
+		self.memberid = 0
+
+	def register(self, game):
+		if game.status == "Open":
+			game.player_list.append(self)
+
+		if len(game.player_list) == game.entrants:
+			game.status = "Full"
+
+
+class Admin():
+	def createNewGame(rounds, entrants):
+		game = Game(rounds, entrants)
+		Lobby.games.append(game)
 
 
 

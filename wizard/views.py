@@ -2,7 +2,7 @@ from flask import session, render_template, request, redirect, url_for, json
 from wizard import app, db
 from .models import User
 from .forms import SignupForm, LoginForm, GameForm
-from .gamemanager import createNewGame, Lobby
+from .gamemanager import Lobby, Player, Admin, Game
 
 @app.route("/")
 def index():
@@ -93,7 +93,7 @@ def createGame():
   elif request.method == "POST":
     entrants = int(form.entrants.data)
     rounds = int(form.rounds.data)
-    createNewGame(rounds, entrants)
+    Admin.createNewGame(rounds, entrants)
     return "Game Created"
 
 @app.route("/game", methods=["GET"])
@@ -108,6 +108,13 @@ def returnLobbyData():
 @app.route("/registerPlayer", methods=["GET", "POST"])
 def registerPlayer():
   data = request.json
+  game_id = int(data['id'])
+  name = session['name']
+
+  game = Game.getGameById(game_id)
+  player = Player(name)
+  player.register(game)
+
   response_message = "Player %s wants to register for tournament %s" %(session['name'], data['id'])
   return json.dumps(response_message)
 
