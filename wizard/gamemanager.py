@@ -31,11 +31,8 @@ class Game():
 	def __repr__(self):
 		return "Game" + str(self.game_id)
 
-	def getGameById(game_id):
-		print(type(game_id))
-		print(type(Lobby.games[0].game_id))
+	def getGameById(game_id):		
 		game_list = [game for game in Lobby.games if game.game_id == game_id]
-		print(game_list)
 		game_obj = game_list[0]
 		return game_obj
 
@@ -47,12 +44,11 @@ class Player():
 		self.memberid = 0
 
 	def register(self, game):
-		if game.status == "Open":
+		if game.status == "Open" and len(game.player_list) < game.entrants:
 			game.player_list.append(self)
 
 		if len(game.player_list) == game.entrants:
 			game.status = "Full"
-
 
 class Admin():
 	def createNewGame(rounds, entrants):

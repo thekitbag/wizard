@@ -114,10 +114,8 @@ def registerPlayer():
   game = Game.getGameById(game_id)
   player = Player(name)
   player.register(game)
-
-  response_message = "Player %s wants to register for tournament %s" %(session['name'], data['id'])
-  return json.dumps(response_message)
-
+  
+  return "Registration successful"
 
 
 
