@@ -110,12 +110,10 @@ def registerPlayer():
   data = request.json
   game_id = int(data['id'])
   name = session['name']
-
   game = Game.getGameById(game_id)
-  player = Player(name)
-  player.register(game)
-  
-  return "Registration successful"
+  #find player object, if it exists, check active games
+  #if it doesnt exist create it
+  #if register play return
 
 
 
