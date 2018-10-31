@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
@@ -6,10 +7,12 @@ app = Flask(__name__)
 db = SQLAlchemy()
 socketio = SocketIO(app)
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/wizard'
+app.config.from_object(os.environ['APP_SETTINGS'])
+
 db.init_app(app)
 app.secret_key = "development-key"
 
 import wizard.views
 import wizard.messages
+
+print(os.environ['APP_SETTINGS'])
