@@ -2,7 +2,6 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug import generate_password_hash, check_password_hash
 
 from wizard import db
-
 class User(db.Model):
   __tablename__ = 'users'
   uid = db.Column(db.Integer, primary_key = True)
