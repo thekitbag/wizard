@@ -66,11 +66,15 @@ def login():
 def logout():
   session.pop('email', None)
   session.pop('name', None)
+  session.pop('active_game', None)
   return redirect(url_for('index'))
 
 @app.route("/lobby", methods=["GET", "POST"])
-def lobby():  
-  	return render_template('lobby.html', name=session.get('name'))
+def lobby():
+  if 'active_game' not in session:
+    return render_template('lobby.html', name=session.get('name'))
+  else:
+    return redirect(url_for('game'))
 
 @app.route("/adminlogin", methods=["GET", "POST"])
 def adminlogin():
@@ -98,7 +102,9 @@ def createGame():
 
 @app.route("/game", methods=["GET"])
 def game():
-  return render_template('game.html')
+  game_id = session['active_game']
+  game_data = Game.getGameData(game_id)
+  return render_template('game.html', game=game_id, game_data=game_data)
 
 @app.route("/lobbydata", methods=["GET"])
 def returnLobbyData():
@@ -107,10 +113,36 @@ def returnLobbyData():
 
 @app.route("/registerPlayer", methods=["GET", "POST"])
 def registerPlayer():
-  data = request.json
-  game_id = int(data['id'])
-  name = session['name']
+  if 'email' not in session:
+    return "Player not logged in"
+  else:
+    data = request.json
+    game_id = int(data['id'])
+    name = session['name']
+    game = Game.getGameById(game_id)
+    player = Player.getPlayerByName(name)
+    session['active_game'] = game_id
+
+    if player == "No Player with this name":
+      newPlayer = Player(name)
+      newPlayer.register(game)      
+      return "Registration successful"
+    else:
+      player.register(game)
+      return "Registration successful"
+
+@app.route("/unRegister", methods=["GET", "POST"])
+def unRegisterPlayer():
+  game_id = int(session['active_game'])
   game = Game.getGameById(game_id)
+  player = Player.getPlayerByName(session['name']) 
+  player.unRegister(game)
+  session.pop('active_game')
+  return "Player Unregistered"
+
+
+    
+
   #find player object, if it exists, check active games
   #if it doesnt exist create it
   #if register play return

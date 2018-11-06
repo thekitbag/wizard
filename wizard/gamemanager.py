@@ -36,33 +36,53 @@ class Game():
 		game_obj = game_list[0]
 		return game_obj
 
+	def getGameData(game_id):
+		game = Game.getGameById(game_id)
+		gamedata = {}
+		gamedata['game_id'] = game.game_id
+		gamedata['status'] = game.status
+		gamedata['entrants']= game.entrants
+		gamedata['player_list'] = []
+		for player in game.player_list:
+			gamedata['player_list'].append(player.name)
+		print(gamedata)
+		return gamedata
+
 
 class Player():
-
+	current_member_id = 0
 	def __init__(self, name):
 		self.name = name
-		self.memberid = 0
+		self.memberid = Player.current_member_id + 1
 		self.active_games = []
+		Lobby.players.append(self)
+		Player.current_member_id += 1
+
+	def __repr__(self):
+		return "player obj, name: " + self.name + ", memberID: " + str(self.memberid)
 
 	def register(self, game):
 		if game.status == "Open" and len(self.active_games) < 1:
 			game.player_list.append(self)
 			self.active_games.append(game)
-			print(self.active_games)
-			print(Lobby.games[0].player_list)
-			return "Registration successful"
-		else: return "Registration failed"
-		
 
-		if len(game.player_list) == game.entrants:
-			game.status = "Full"
+			if len(game.player_list) == game.entrants:
+				game.status = "Full"
+
+			return "Registration successful"
+		else: return "Registration failed"		
+
+	def unRegister(self, game):		
+		game.player_list.remove(self)
+		self.active_games.remove(game)
+		return self.active_games
 
 	def getPlayerByName(name):
-		print(name)
-		print(Lobby.players)
 		player_list = [player for player in Lobby.players if player.name == name]
-		player_obj = player_list[0]
-		return player_obj
+		if len(player_list) > 0:
+			player_obj = player_list[0]
+			return player_obj
+		else: return "No Player with this name"
 
 
 

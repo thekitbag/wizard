@@ -28,9 +28,10 @@ function jsonPost(url, data) {
 	xhr.onreadystatechange = function () {
 	    if (xhr.readyState === 4 && xhr.status === 200) {
 	        if (xhr.responseText == "Registration successful") {
-	        	window.location.href = "/game"
-	        }
-	        
+	        	window.location.href = "/game";
+	        } else if (xhr.responseText == "Player not logged in") {
+	        	window.location.href = "/login";
+        	}	        
 	    }
 	};
 	//var data = JSON.stringify({"email": "hey@mail.com", "password": "101010"});
