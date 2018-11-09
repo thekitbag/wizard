@@ -4,6 +4,7 @@ var socket = io.connect('http://' + document.domain + ':' + location.port);
         });
 
 function unRegisterPlayer() {
+	console.log("X")
 	url = '/unRegister'
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -20,12 +21,6 @@ function unRegisterPlayer() {
 }
 
 
-function addUnRegisterListener() {
-	document.addEventListener('click', function (event) {
-		if (event.target.matches('#unregister')) {
-			unRegisterPlayer();
-		}
-
-	}, false)};
-
-addUnRegisterListener()
+document.getElementById("unregister").addEventListener("click", function(){
+    unRegisterPlayer();
+});

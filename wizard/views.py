@@ -103,8 +103,10 @@ def createGame():
 @app.route("/game", methods=["GET"])
 def game():
   game_id = session['active_game']
-  game_data = Game.getGameData(game_id)
-  return render_template('game.html', game=game_id, game_data=game_data)
+  game = Game.getGameById(game_id)
+  user = Player.getPlayerByName(session['name'])
+  other_entrants = Player.getOtherEntrants(user, game)  
+  return render_template('game.html', other_entrants=other_entrants, user=user.name)
 
 @app.route("/lobbydata", methods=["GET"])
 def returnLobbyData():

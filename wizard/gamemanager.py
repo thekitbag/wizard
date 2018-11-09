@@ -84,6 +84,15 @@ class Player():
 			return player_obj
 		else: return "No Player with this name"
 
+	def getOtherEntrants(user, game):
+		players = []
+		print(game.player_list)
+		for player in game.player_list:
+			if player.name != user.name:
+				players.append(player.name)
+		return players
+
+
 
 
 
